@@ -1,13 +1,119 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  /* --dark-purple: #6c5ce7;
+  --darker-purple: #4834d4;
+  --darkest-purple: #341f97;
+  --lighter-purple: #9b59b6;
+  --light-purple: #8e44ad;
+  --lightest-purple: #c291e2; */
+  --dark-purple: #0652dd;
+  --darker-purple: #1e3799;
+  --darkest-purple: #0c2461;
+  /* --lighter-purple: #9b59b6;
+  --light-purple: #8e44ad; */
+  --lightest-purple: #74b9ff;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+*,
+*::after,
+*::before {
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+#root {
+  height: 100%;
+}
+
+html {
+  font-size: 62.5%;
+  height: 100%;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: rgb(106, 176, 76);
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.centered {
+  margin: 5rem auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-form {
+  height: 30rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.modal-form label {
+  margin: 1rem auto;
+  font-size: 2rem;
+  color: white;
+}
+
+.modal-form .error {
+  color: red;
+}
+
+.modal-form input {
+  margin: 1rem auto;
+  /* width: 10rem; */
+  height: 4rem;
+  padding: 0 1.5rem;
+  font-size: 2rem;
+  color: black;
+  background-color: transparent;
+  text-align: center;
+  border-color: white;
+  border-width: 3px;
+  display: block;
+  border: none;
+  border-bottom: 3px solid #ccc;
+}
+
+.modal-btn-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.modal-form button {
+  margin: 1rem auto;
+  padding: 0.8rem;
+  width: 10rem;
+  height: 5rem;
+  font-size: 2rem;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  white-space: nowrap;
+  margin: 1rem;
+  border: none;
+}
+.modal-form button:hover {
+  background-color: #27ae60;
+  color: #ffffff;
+}
+
+@media screen and (min-resolution: 192dpi) and (min-width: 600px),
+  (min-width: 1200px) {
+}
+
+@media screen and (max-width: 1200px) {
+  html {
+    font-size: 50%; /* 8px per rem */
+  }
+}
+
+@media screen and (max-width: 900px) {
+  html {
+    font-size: 37.5%; /* 6px per rem */
+  }
 }

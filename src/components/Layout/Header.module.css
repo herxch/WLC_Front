@@ -1,0 +1,13 @@
+.header {
+  width: 90%;
+  height: 8rem;
+  font-size: 2rem;
+  background-color: #27ae60;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 10;
+}

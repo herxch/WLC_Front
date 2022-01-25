@@ -1,0 +1,27 @@
+.BMI-container {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+}
+
+.middle {
+  margin-top: 8rem;
+  font-size: 2rem;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.middle td {
+  height: 4rem;
+}
+
+.middle th {
+  height: 6rem;
+}
+
+.weightdiff {
+  font-size: 3rem;
+}
