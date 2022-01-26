@@ -157,7 +157,7 @@ const BMI = (props) => {
         <div className={classes['BMI-x']}>
           <Input
             id='x'
-            label='X-man'
+            label='X'
             value={props.weightData.x}
             IsValid={props.xIsValid}
             IsAuth={props.isXAuth}
