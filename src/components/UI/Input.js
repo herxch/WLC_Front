@@ -19,7 +19,7 @@ const Input = (props) => {
           ref={props.InputRef}
           className={classes.input}
         />
-        <button disabled={!props.IsValid} type='submit' className={classes.btn}>
+        <button hidden={!props.IsValid} type='submit' className={classes.btn}>
           Submit
         </button>
       </form>

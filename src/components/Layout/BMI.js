@@ -37,8 +37,11 @@ const BMI = (props) => {
       return;
     }
     if (id === 'me') {
-      const enteredWeight = meInputRef.current.value;
+      const enteredWeight = +meInputRef.current.value;
       try {
+        if (enteredWeight < 55 || enteredWeight > 90) {
+          return;
+        }
         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/me`, {
           method: 'POST',
           headers: {
@@ -47,21 +50,25 @@ const BMI = (props) => {
           },
           body: JSON.stringify({
             date: new Date().toLocaleDateString(),
-            me: +enteredWeight,
+            me: enteredWeight,
           }),
         });
         const resData = await res.json();
         if (!res.ok) {
           throw new Error(resData.message);
         }
-        // setMeIsValid(false);
+        props.onSetMeIsValid();
       } catch (err) {
+        return;
         // setMessages(err.message);
       }
     }
     if (id === 'x') {
       const enteredWeight = xInputRef.current.value;
       try {
+        if (enteredWeight < 55 || enteredWeight > 90) {
+          return;
+        }
         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/x`, {
           method: 'POST',
           headers: {
@@ -70,14 +77,14 @@ const BMI = (props) => {
           },
           body: JSON.stringify({
             date: new Date().toLocaleDateString(),
-            x: +enteredWeight,
+            x: enteredWeight,
           }),
         });
         const resData = await res.json();
         if (!res.ok) {
           throw new Error(resData.message);
         }
-        // setXIsValid(false);
+        props.onSetXIsValid();
       } catch (err) {
         // setMessages(err.message);
       }

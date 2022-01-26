@@ -149,6 +149,17 @@ const App = (props) => {
   const onPwChangeHandler = () => {
     setMessages(null);
   };
+
+  const onSetMeIsValidHandler = () => {
+    setMeIsValid(false);
+    myFetch();
+  };
+
+  const onSetXIsValidHandler = () => {
+    setXIsValid(false);
+    myFetch();
+  };
+
   const modalForm = (
     <form onSubmit={onModalSubmitHandler} className={'modal-form'}>
       <label htmlFor='error' className='error'>
@@ -161,6 +172,7 @@ const App = (props) => {
         ref={passwordInputRef}
         name={modalInputId}
         onChange={onPwChangeHandler}
+        autoFocus
       />
       <div className='modal-btn-container'>
         <button type='submit'>Submit</button>
@@ -184,6 +196,8 @@ const App = (props) => {
         onSetModalInputId={onSetModalInputIdHandler}
         isMeAuth={isMeAuth}
         isXAuth={isXAuth}
+        onSetMeIsValid={onSetMeIsValidHandler}
+        onSetXIsValid={onSetXIsValidHandler}
       />
       <TwoLineChart data={data} />
     </div>
