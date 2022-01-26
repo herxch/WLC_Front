@@ -1,5 +1,6 @@
 .BMI-container {
   width: 90%;
+  height: 40rem;
   display: flex;
   justify-content: center;
 }
@@ -24,4 +25,26 @@
 
 .weightdiff {
   font-size: 3rem;
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 900px) {
+  .BMI-container {
+    flex-direction: column;
+    height: auto;
+  }
+  .BMI-container .BMI-me {
+    height: 53rem;
+  }
+  .middle {
+    margin: 4rem auto;
+    font-size: 3rem;
+  }
+  .weightdiff {
+    margin-top: 3rem;
+    font-size: 4rem;
+  }
+  .BMI-container .BMI-x {
+    height: 53rem;
+  }
 }

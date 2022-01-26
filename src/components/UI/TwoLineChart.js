@@ -13,15 +13,15 @@ import {
 const TwoLineChart = (props) => {
   return (
     <Fragment>
-      <ResponsiveContainer width='75%' aspect={2}>
+      <ResponsiveContainer width='99%' height={500}>
         <LineChart
-          width={500}
-          height={250}
+          // width={100}
+          // height={250}
           //data={data}
           margin={{
             top: 40,
             right: 40,
-            left: 40,
+            left: 0,
             bottom: 40,
           }}
         >
