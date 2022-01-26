@@ -49,7 +49,7 @@ const BMI = (props) => {
             Authorization: 'Bearer ' + token,
           },
           body: JSON.stringify({
-            date: new Date().toLocaleDateString(),
+            date: new Date().toLocaleDateString('en-CA'),
             me: enteredWeight,
           }),
         });
@@ -76,7 +76,7 @@ const BMI = (props) => {
             Authorization: 'Bearer ' + token,
           },
           body: JSON.stringify({
-            date: new Date().toLocaleDateString(),
+            date: new Date().toLocaleDateString('en-CA'),
             x: enteredWeight,
           }),
         });

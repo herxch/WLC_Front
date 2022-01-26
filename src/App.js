@@ -28,11 +28,6 @@ const App = (props) => {
     setWeightData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const convertDate = (date) =>
-    `${new Date(date).getMonth() + 1}/${new Date(date).getDate()}/${new Date(
-      date
-    ).getFullYear()}`;
-
   const myFetch = useCallback(async () => {
     // setIsLoading(true);
     // if (props.type === 'signup') {
@@ -47,35 +42,18 @@ const App = (props) => {
       if (!me.ok || !x.ok) {
         throw new Error(meData.message || xData.message);
       }
-      const meChartData = {
-        ...meData,
-        data: meData.data.map((item) => ({
-          ...item,
-          date: convertDate(item.date),
-        })),
-      };
 
-      const xChartData = {
-        ...xData,
-        data: xData.data.map((item) => ({
-          ...item,
-          date: convertDate(item.date),
-        })),
-      };
-
-      setData([meChartData, xChartData]);
+      setData([meData, xData]);
       setWeightData({
         me: meData.data[meData.data.length - 1].me,
         x: xData.data[xData.data.length - 1].x,
       });
-      const today = new Date().toLocaleDateString();
-      const convertedToday = convertDate(today);
-      if (
-        meChartData.data[meChartData.data.length - 1].date !== convertedToday
-      ) {
+      const today = new Date().toLocaleDateString('en-CA');
+
+      if (meData.data[meData.data.length - 1].date !== today) {
         setMeIsValid(true);
       }
-      if (xChartData.data[xChartData.data.length - 1].date !== convertedToday) {
+      if (xData.data[xData.data.length - 1].date !== today) {
         setXIsValid(true);
       }
       // setIsLoading(false);
