@@ -19,7 +19,7 @@ const App = (props) => {
   const [isXAuth, setIsXAuth] = useState(false);
 
   const [data, setData] = useState([
-    { name: 'Me', data: [] },
+    { name: 'C', data: [] },
     { name: 'X', data: [] },
   ]);
 
