@@ -1,0 +1,27 @@
+.spinner {
+  display: inline-block;
+  width: 8rem;
+  height: 8rem;
+  color: white;
+  font-size: 3rem;
+  width: 50rem;
+}
+.spinner:after {
+  content: ' ';
+  display: block;
+  width: 6.4rem;
+  height: 6.4rem;
+  margin: 2rem auto;
+  border-radius: 50%;
+  border: 1rem solid white;
+  border-color: white transparent white transparent;
+  animation: spinner 2s linear infinite;
+}
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

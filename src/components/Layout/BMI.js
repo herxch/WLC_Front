@@ -2,6 +2,7 @@ import { Fragment, useRef, useContext } from 'react';
 import Input from '../UI/Input';
 import BMIChart from '../UI/BMIChart';
 import AuthContext from '../../store/auth-context';
+import newR from '../../img/new.png';
 
 import classes from './BMI.module.css';
 
@@ -111,18 +112,25 @@ const BMI = (props) => {
   return (
     <Fragment>
       <div className={classes['BMI-container']}>
-        <div className={classes['BMI-me']}>
-          <Input
-            id='me'
-            label='C'
-            value={props.weightData.me}
-            IsValid={props.meIsValid}
-            IsAuth={props.isMeAuth}
-            onSubmit={submitHandler}
-            onChange={props.onWeightChange}
-            onClick={onClickHandler}
-            InputRef={meInputRef}
-          />
+        <div className={classes['BMI-me-container']}>
+          <div className={classes['BMI-inner']}>
+            <div className={classes.HLbar}>
+              <span>{props.weightData.meH}</span>
+              <span>{props.weightData.meL}</span>
+            </div>
+            <Input
+              id='me'
+              label='C'
+              value={props.weightData.me}
+              IsValid={props.meIsValid}
+              IsAuth={props.isMeAuth}
+              onSubmit={submitHandler}
+              onChange={props.onWeightChange}
+              onClick={onClickHandler}
+              InputRef={meInputRef}
+            />
+            {props.isNewRecord && <img src={newR} alt='new record' />}
+          </div>
           <BMIChart id='meChart' BMIPct={meBMIPct} />
         </div>
         <div className={classes.middle}>
@@ -154,18 +162,25 @@ const BMI = (props) => {
             className={classes.weightdiff}
           >{`Weight Diff:  ${weightDiff} lbs`}</div>
         </div>
-        <div className={classes['BMI-x']}>
-          <Input
-            id='x'
-            label='X'
-            value={props.weightData.x}
-            IsValid={props.xIsValid}
-            IsAuth={props.isXAuth}
-            onSubmit={submitHandler}
-            onChange={props.onWeightChange}
-            onClick={onClickHandler}
-            InputRef={xInputRef}
-          />
+        <div className={classes['BMI-x-container']}>
+          <div className={classes['BMI-inner']}>
+            <div className={classes.HLbar}>
+              <span>{props.weightData.xH}</span>
+              <span>{props.weightData.xL}</span>
+            </div>
+            <Input
+              id='x'
+              label='X'
+              value={props.weightData.x}
+              IsValid={props.xIsValid}
+              IsAuth={props.isXAuth}
+              onSubmit={submitHandler}
+              onChange={props.onWeightChange}
+              onClick={onClickHandler}
+              InputRef={xInputRef}
+            />
+            {props.isNewRecord && <img src={newR} alt='new record' />}
+          </div>
           <BMIChart id='xChart' BMIPct={xBMIPct} />
         </div>
       </div>

@@ -5,11 +5,19 @@ import Header from './components/Layout/Header.js';
 import BMI from './components/Layout/BMI.js';
 import TwoLineChart from './components/UI/TwoLineChart.js';
 import AuthContext from './store/auth-context.js';
+import LoadingSpinner from './components/UI/LoadingSpinner';
 
 const App = (props) => {
   const authCtx = useContext(AuthContext);
   const [messages, setMessages] = useState(null);
-  const [weightData, setWeightData] = useState({ me: 0, x: 0 });
+  const [weightData, setWeightData] = useState({
+    me: 0,
+    meH: 0,
+    meL: 0,
+    x: 0,
+    xH: 0,
+    xL: 0,
+  });
   const [meIsValid, setMeIsValid] = useState(false);
   const [xIsValid, setXIsValid] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -17,6 +25,13 @@ const App = (props) => {
   const [modalInputId, setModalInputId] = useState('');
   const [isMeAuth, setIsMeAuth] = useState(false);
   const [isXAuth, setIsXAuth] = useState(false);
+  const [isNewRecord, setIsNewRecord] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showWholeChart, setShowWholeChart] = useState(false);
+  const [halfMonthData, setHalfMonthData] = useState([
+    { name: 'C', data: [] },
+    { name: 'X', data: [] },
+  ]);
 
   const [data, setData] = useState([
     { name: 'C', data: [] },
@@ -29,39 +44,81 @@ const App = (props) => {
   };
 
   const myFetch = useCallback(async () => {
-    // setIsLoading(true);
-    // if (props.type === 'signup') {
-    //   setIsLogin(false);
-    // }
-    // if (props.type === 'login') setIsLogin(true);
+    setIsLoading(true);
     try {
       const me = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/me`);
       const meData = await me.json();
       const x = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/x`);
       const xData = await x.json();
-      if (!me.ok || !x.ok) {
-        throw new Error(meData.message || xData.message);
+      const meH = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/me/h`);
+      const meHData = await meH.json();
+      const meL = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/me/l`);
+      const meLData = await meL.json();
+      const xH = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/x/h`);
+      const xHData = await xH.json();
+      const xL = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/x/l`);
+      const xLData = await xL.json();
+      if (!me.ok || !x.ok || !meH.ok || !meL.ok || !xH.ok || !xL.ok) {
+        throw new Error(
+          meData.message ||
+            xData.message ||
+            meHData.message ||
+            meLData.message ||
+            xHData.message ||
+            xLData.message
+        );
       }
 
       setData([meData, xData]);
+      let firstDay = new Date();
+      firstDay.setDate(firstDay.getDate() - 15);
+      const strFirstDay = firstDay.toLocaleDateString('en-CA');
+      setHalfMonthData([
+        {
+          ...meData,
+          data: meData.data.filter((item) => item.date > strFirstDay),
+        },
+        {
+          ...xData,
+          data: xData.data.filter((item) => item.date > strFirstDay),
+        },
+      ]);
       setWeightData({
         me: meData.data[meData.data.length - 1].me,
+        meH: meHData.data,
+        meL: meLData.data,
         x: xData.data[xData.data.length - 1].x,
+        xH: xHData.data,
+        xL: xLData.data,
       });
+      if (
+        weightData.me === weightData.meH ||
+        weightData.me === weightData.meL ||
+        weightData.x === weightData.xH ||
+        weightData.x === weightData.xL
+      ) {
+        setIsNewRecord(true);
+      }
       const today = new Date().toLocaleDateString('en-CA');
-
       if (meData.data[meData.data.length - 1].date !== today) {
         setMeIsValid(true);
       }
       if (xData.data[xData.data.length - 1].date !== today) {
         setXIsValid(true);
       }
-      // setIsLoading(false);
+      setIsLoading(false);
     } catch (err) {
-      // setIsLoading(false);
+      setIsLoading(false);
       setMessages(err);
     }
-  }, []);
+  }, [
+    weightData.me,
+    weightData.meH,
+    weightData.meL,
+    weightData.x,
+    weightData.xH,
+    weightData.xL,
+  ]);
 
   useEffect(() => {
     myFetch();
@@ -161,23 +218,41 @@ const App = (props) => {
     </form>
   );
 
+  const onChartToggleHandler = () => {
+    setShowWholeChart((prev) => !prev);
+  };
+
   return (
     <div>
       {showModal && <Modal onClose={onCloseModalHandler}>{modalForm}</Modal>}
       <Header />
-      <BMI
-        meIsValid={meIsValid}
-        xIsValid={xIsValid}
-        onWeightChange={onWeightChangeHandler}
-        onShowModal={showModalHandler}
-        weightData={weightData}
-        onSetModalInputId={onSetModalInputIdHandler}
-        isMeAuth={isMeAuth}
-        isXAuth={isXAuth}
-        onSetMeIsValid={onSetMeIsValidHandler}
-        onSetXIsValid={onSetXIsValidHandler}
-      />
-      <TwoLineChart data={data} />
+      {isLoading && (
+        <div className={'centered'}>
+          <LoadingSpinner />
+        </div>
+      )}
+      {!isLoading && (
+        <BMI
+          meIsValid={meIsValid}
+          xIsValid={xIsValid}
+          onWeightChange={onWeightChangeHandler}
+          onShowModal={showModalHandler}
+          weightData={weightData}
+          onSetModalInputId={onSetModalInputIdHandler}
+          isMeAuth={isMeAuth}
+          isXAuth={isXAuth}
+          onSetMeIsValid={onSetMeIsValidHandler}
+          onSetXIsValid={onSetXIsValidHandler}
+          isNewRecord={isNewRecord}
+        />
+      )}
+      {!isLoading && (
+        <button type='button' className={'btn'} onClick={onChartToggleHandler}>
+          {showWholeChart ? 'Show Recent 15 Days' : 'Show All'}
+        </button>
+      )}
+      {!isLoading && showWholeChart && <TwoLineChart data={data} />}
+      {!isLoading && !showWholeChart && <TwoLineChart data={halfMonthData} />}
     </div>
   );
 };
