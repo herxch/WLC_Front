@@ -91,14 +91,7 @@ const App = (props) => {
         xH: xHData.data,
         xL: xLData.data,
       });
-      if (
-        weightData.me === weightData.meH ||
-        weightData.me === weightData.meL ||
-        weightData.x === weightData.xH ||
-        weightData.x === weightData.xL
-      ) {
-        setIsNewRecord(true);
-      }
+
       const today = new Date().toLocaleDateString('en-CA');
       if (meData.data[meData.data.length - 1].date !== today) {
         setMeIsValid(true);
@@ -111,6 +104,21 @@ const App = (props) => {
       setIsLoading(false);
       setMessages(err);
     }
+  }, []);
+
+  useEffect(() => {
+    myFetch();
+  }, [myFetch]);
+
+  useEffect(() => {
+    if (
+      weightData.me === weightData.meH ||
+      weightData.me === weightData.meL ||
+      weightData.x === weightData.xH ||
+      weightData.x === weightData.xL
+    ) {
+      setIsNewRecord(true);
+    }
   }, [
     weightData.me,
     weightData.meH,
@@ -119,10 +127,6 @@ const App = (props) => {
     weightData.xH,
     weightData.xL,
   ]);
-
-  useEffect(() => {
-    myFetch();
-  }, [myFetch]);
 
   const onModalSubmitHandler = async (e) => {
     e.preventDefault();
