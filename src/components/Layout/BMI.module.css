@@ -16,6 +16,14 @@
   width: 8rem;
 }
 
+.show {
+  opacity: 1;
+}
+
+.hide {
+  opacity: 0;
+}
+
 .HLbar {
   display: flex;
   flex-direction: column;

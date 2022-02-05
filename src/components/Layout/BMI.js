@@ -129,7 +129,11 @@ const BMI = (props) => {
               onClick={onClickHandler}
               InputRef={meInputRef}
             />
-            {props.isNewRecord && <img src={newR} alt='new record' />}
+            <img
+              src={newR}
+              alt='new record'
+              className={props.isMeNewRecord ? classes.show : classes.hide}
+            />
           </div>
           <BMIChart id='meChart' BMIPct={meBMIPct} />
         </div>
@@ -179,7 +183,11 @@ const BMI = (props) => {
               onClick={onClickHandler}
               InputRef={xInputRef}
             />
-            {props.isNewRecord && <img src={newR} alt='new record' />}
+            <img
+              src={newR}
+              alt='new record'
+              className={props.isXNewRecord ? classes.show : classes.hide}
+            />
           </div>
           <BMIChart id='xChart' BMIPct={xBMIPct} />
         </div>

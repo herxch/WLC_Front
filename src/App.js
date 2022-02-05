@@ -25,7 +25,8 @@ const App = (props) => {
   const [modalInputId, setModalInputId] = useState('');
   const [isMeAuth, setIsMeAuth] = useState(false);
   const [isXAuth, setIsXAuth] = useState(false);
-  const [isNewRecord, setIsNewRecord] = useState(false);
+  const [isMeNewRecord, setIsMeNewRecord] = useState(false);
+  const [isXNewRecord, setIsXNewRecord] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showWholeChart, setShowWholeChart] = useState(false);
   const [halfMonthData, setHalfMonthData] = useState([
@@ -112,12 +113,16 @@ const App = (props) => {
 
   useEffect(() => {
     if (
-      weightData.me === weightData.meH ||
-      weightData.me === weightData.meL ||
-      weightData.x === weightData.xH ||
-      weightData.x === weightData.xL
+      weightData.me !== 0 &&
+      (weightData.me === weightData.meH || weightData.me === weightData.meL)
     ) {
-      setIsNewRecord(true);
+      setIsMeNewRecord(true);
+    }
+    if (
+      weightData.x !== 0 &&
+      (weightData.x === weightData.xH || weightData.x === weightData.xL)
+    ) {
+      setIsXNewRecord(true);
     }
   }, [
     weightData.me,
@@ -247,7 +252,8 @@ const App = (props) => {
           isXAuth={isXAuth}
           onSetMeIsValid={onSetMeIsValidHandler}
           onSetXIsValid={onSetXIsValidHandler}
-          isNewRecord={isNewRecord}
+          isMeNewRecord={isMeNewRecord}
+          isXNewRecord={isXNewRecord}
         />
       )}
       {!isLoading && (
