@@ -90,6 +90,7 @@ const BMI = (props) => {
         // setMessages(err.message);
       }
     }
+    props.onCheckNewRecord();
   };
 
   const calcBMIPct = (weight, height) => {

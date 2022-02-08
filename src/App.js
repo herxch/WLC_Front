@@ -111,27 +111,23 @@ const App = (props) => {
     myFetch();
   }, [myFetch]);
 
-  useEffect(() => {
+  const checkNewRecordHandler = () => {
+    setIsMeNewRecord(false);
+    setIsXNewRecord(false);
     if (
-      weightData.me !== 0 &&
-      (weightData.me === weightData.meH || weightData.me === weightData.meL)
+      +weightData.me !== 0 &&
+      (+weightData.me === weightData.meH || +weightData.me === weightData.meL)
     ) {
       setIsMeNewRecord(true);
     }
     if (
-      weightData.x !== 0 &&
-      (weightData.x === weightData.xH || weightData.x === weightData.xL)
+      +weightData.x !== 0 &&
+      (+weightData.x === weightData.xH || +weightData.x === weightData.xL)
     ) {
       setIsXNewRecord(true);
     }
-  }, [
-    weightData.me,
-    weightData.meH,
-    weightData.meL,
-    weightData.x,
-    weightData.xH,
-    weightData.xL,
-  ]);
+  };
+  useEffect(checkNewRecordHandler, [checkNewRecordHandler]);
 
   const onModalSubmitHandler = async (e) => {
     e.preventDefault();
@@ -254,6 +250,7 @@ const App = (props) => {
           onSetXIsValid={onSetXIsValidHandler}
           isMeNewRecord={isMeNewRecord}
           isXNewRecord={isXNewRecord}
+          onCheckNewRecord={checkNewRecordHandler}
         />
       )}
       {!isLoading && (
