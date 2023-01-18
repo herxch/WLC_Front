@@ -15,7 +15,7 @@ const BMI = (props) => {
 
   const heightData = {
     me: 1.7,
-    x: 1.75,
+    x: 1.8,
   };
 
   const onClickHandler = (e) => {
@@ -67,7 +67,7 @@ const BMI = (props) => {
     if (id === 'x') {
       const enteredWeight = xInputRef.current.value;
       try {
-        if (enteredWeight < 55 || enteredWeight > 90) {
+        if (enteredWeight < 55 || enteredWeight > 95) {
           return;
         }
         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/x`, {
