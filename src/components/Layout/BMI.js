@@ -1,10 +1,10 @@
-import { Fragment, useRef, useContext } from 'react';
-import Input from '../UI/Input';
-import BMIChart from '../UI/BMIChart';
-import AuthContext from '../../store/auth-context';
-import newR from '../../img/new.png';
+import { Fragment, useRef, useContext } from "react";
+import Input from "../UI/Input";
+import BMIChart from "../UI/BMIChart";
+import AuthContext from "../../store/auth-context";
+import newR from "../../img/new.png";
 
-import classes from './BMI.module.css';
+import classes from "./BMI.module.css";
 
 const BMI = (props) => {
   const authCtx = useContext(AuthContext);
@@ -23,9 +23,9 @@ const BMI = (props) => {
   const onClickHandler = (e) => {
     const { name } = e.target;
     if (
-      (name === 'c' && !props.isCAuth) ||
-      (name === 'm' && !props.isMAuth) ||
-      (name === 'j' && !props.isJAuth)
+      (name === "c" && !props.isCAuth) ||
+      (name === "m" && !props.isMAuth) ||
+      (name === "j" && !props.isJAuth)
     ) {
       props.onSetModalInputId(name);
       props.onShowModal();
@@ -37,27 +37,27 @@ const BMI = (props) => {
     e.preventDefault();
     const { id } = e.target;
     if (
-      (id === 'c' && !props.isCAuth) ||
-      (id === 'm' && !props.isMAuth) ||
-      (id === 'j' && !props.isJAuth)
+      (id === "c" && !props.isCAuth) ||
+      (id === "m" && !props.isMAuth) ||
+      (id === "j" && !props.isJAuth)
     ) {
       props.onShowModal();
       return;
     }
-    if (id === 'c') {
+    if (id === "c") {
       const enteredWeight = +cInputRef.current.value;
       try {
         if (enteredWeight < 55 || enteredWeight > 90) {
           return;
         }
         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/c`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token,
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
           },
           body: JSON.stringify({
-            date: new Date().toLocaleDateString('en-CA'),
+            date: new Date().toLocaleDateString("en-CA"),
             value: enteredWeight,
           }),
         });
@@ -71,20 +71,20 @@ const BMI = (props) => {
         // setMessages(err.message);
       }
     }
-    if (id === 'm') {
+    if (id === "m") {
       const enteredWeight = mInputRef.current.value;
       try {
         if (enteredWeight < 55 || enteredWeight > 95) {
           return;
         }
         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/m`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token,
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
           },
           body: JSON.stringify({
-            date: new Date().toLocaleDateString('en-CA'),
+            date: new Date().toLocaleDateString("en-CA"),
             value: enteredWeight,
           }),
         });
@@ -97,20 +97,20 @@ const BMI = (props) => {
         // setMessages(err.message);
       }
     }
-    if (id === 'j') {
+    if (id === "j") {
       const enteredWeight = jInputRef.current.value;
       try {
         if (enteredWeight < 50 || enteredWeight > 95) {
           return;
         }
         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/j`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token,
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
           },
           body: JSON.stringify({
-            date: new Date().toLocaleDateString('en-CA'),
+            date: new Date().toLocaleDateString("en-CA"),
             value: enteredWeight,
           }),
         });
@@ -146,7 +146,7 @@ const BMI = (props) => {
 
   return (
     <Fragment>
-      <div className={classes['BMI-container']}>
+      <div className={classes["BMI-container"]}>
         <div className={classes.middle}>
           <table>
             <tbody>
@@ -176,15 +176,15 @@ const BMI = (props) => {
             className={classes.weightdiff}
           >{`Weight Diff:  ${weightDiff} lbs`}</div> */}
         </div>
-        <div className={classes['BMI-c-container']}>
-          <div className={classes['BMI-inner']}>
+        <div className={classes["BMI-c-container"]}>
+          <div className={classes["BMI-inner"]}>
             <div className={classes.HLbar}>
               <span>{props.weightData.cH}</span>
               <span>{props.weightData.cL}</span>
             </div>
             <Input
-              id='c'
-              label='C'
+              id="c"
+              label="C"
               value={props.weightData.c}
               IsValid={props.cIsValid}
               IsAuth={props.isCAuth}
@@ -195,22 +195,22 @@ const BMI = (props) => {
             />
             <img
               src={newR}
-              alt='new record'
+              alt="new record"
               className={props.isCNewRecord ? classes.show : classes.hide}
             />
           </div>
-          <BMIChart id='cChart' BMIPct={cBMIPct} />
+          <BMIChart id="cChart" BMIPct={cBMIPct} />
         </div>
 
-        <div className={classes['BMI-m-container']}>
-          <div className={classes['BMI-inner']}>
+        <div className={classes["BMI-m-container"]}>
+          <div className={classes["BMI-inner"]}>
             <div className={classes.HLbar}>
               <span>{props.weightData.mH}</span>
               <span>{props.weightData.mL}</span>
             </div>
             <Input
-              id='m'
-              label='M'
+              id="m"
+              label="M"
               value={props.weightData.m}
               IsValid={props.mIsValid}
               IsAuth={props.isMAuth}
@@ -221,21 +221,21 @@ const BMI = (props) => {
             />
             <img
               src={newR}
-              alt='new record'
+              alt="new record"
               className={props.isMNewRecord ? classes.show : classes.hide}
             />
           </div>
-          <BMIChart id='mChart' BMIPct={mBMIPct} />
+          <BMIChart id="mChart" BMIPct={mBMIPct} />
         </div>
-        <div className={classes['BMI-j-container']}>
-          <div className={classes['BMI-inner']}>
+        <div className={classes["BMI-j-container"]}>
+          <div className={classes["BMI-inner"]}>
             <div className={classes.HLbar}>
               <span>{props.weightData.jH}</span>
               <span>{props.weightData.jL}</span>
             </div>
             <Input
-              id='j'
-              label='J'
+              id="j"
+              label="J"
               value={props.weightData.j}
               IsValid={props.jIsValid}
               IsAuth={props.isJAuth}
@@ -246,11 +246,11 @@ const BMI = (props) => {
             />
             <img
               src={newR}
-              alt='new record'
-              className={props.isMNewRecord ? classes.show : classes.hide}
+              alt="new record"
+              className={props.isJNewRecord ? classes.show : classes.hide}
             />
           </div>
-          <BMIChart id='jChart' BMIPct={jBMIPct} />
+          <BMIChart id="jChart" BMIPct={jBMIPct} />
         </div>
       </div>
     </Fragment>
