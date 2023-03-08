@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const TwoLineChart = (props) => {
+const ThreeLineChart = (props) => {
   return (
     <Fragment>
       <ResponsiveContainer width='99%' height={500}>
@@ -55,8 +55,7 @@ const TwoLineChart = (props) => {
             iconSize={30}
           />
           <Line
-            //type='monotone'
-            dataKey='me'
+            dataKey='value'
             data={props.data[0].data}
             name={props.data[0].name}
             stroke='#f39c12'
@@ -64,10 +63,18 @@ const TwoLineChart = (props) => {
             activeDot={{ r: 10 }}
           />
           <Line
-            dataKey='x'
+            dataKey='value'
             data={props.data[1].data}
             name={props.data[1].name}
             stroke='#0984e3'
+            strokeWidth={5}
+            activeDot={{ r: 10 }}
+          />
+          <Line
+            dataKey='value'
+            data={props.data[2].data}
+            name={props.data[2].name}
+            stroke='#642D8A'
             strokeWidth={5}
             activeDot={{ r: 10 }}
           />
@@ -77,4 +84,4 @@ const TwoLineChart = (props) => {
   );
 };
 
-export default TwoLineChart;
+export default ThreeLineChart;

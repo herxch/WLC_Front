@@ -3,7 +3,7 @@ import { useCallback, useState, useEffect, useRef, useContext } from 'react';
 import Modal from './components/UI/Modal.js';
 import Header from './components/Layout/Header.js';
 import BMI from './components/Layout/BMI.js';
-import TwoLineChart from './components/UI/TwoLineChart.js';
+import ThreeLineChart from './components/UI/ThreeLineChart.js';
 import AuthContext from './store/auth-context.js';
 import LoadingSpinner from './components/UI/LoadingSpinner';
 
@@ -11,32 +11,40 @@ const App = (props) => {
   const authCtx = useContext(AuthContext);
   const [messages, setMessages] = useState(null);
   const [weightData, setWeightData] = useState({
-    me: 0,
-    meH: 0,
-    meL: 0,
-    x: 0,
-    xH: 0,
-    xL: 0,
+    c: 0,
+    cH: 0,
+    cL: 0,
+    m: 0,
+    mH: 0,
+    mL: 0,
+    j: 0,
+    jH: 0,
+    jL: 0,
   });
-  const [meIsValid, setMeIsValid] = useState(false);
-  const [xIsValid, setXIsValid] = useState(false);
+  const [cIsValid, setCIsValid] = useState(false);
+  const [mIsValid, setMIsValid] = useState(false);
+  const [jIsValid, setJIsValid] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const passwordInputRef = useRef();
   const [modalInputId, setModalInputId] = useState('');
-  const [isMeAuth, setIsMeAuth] = useState(false);
-  const [isXAuth, setIsXAuth] = useState(false);
-  const [isMeNewRecord, setIsMeNewRecord] = useState(false);
-  const [isXNewRecord, setIsXNewRecord] = useState(false);
+  const [isCAuth, setIsCAuth] = useState(false);
+  const [isMAuth, setIsMAuth] = useState(false);
+  const [isJAuth, setIsJAuth] = useState(false);
+  const [isCNewRecord, setIsCNewRecord] = useState(false);
+  const [isMNewRecord, setIsMNewRecord] = useState(false);
+  const [isJNewRecord, setIsJNewRecord] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showWholeChart, setShowWholeChart] = useState(false);
   const [halfMonthData, setHalfMonthData] = useState([
     { name: 'C', data: [] },
-    { name: 'X', data: [] },
+    { name: 'M', data: [] },
+    { name: 'J', data: [] },
   ]);
 
   const [data, setData] = useState([
     { name: 'C', data: [] },
-    { name: 'X', data: [] },
+    { name: 'M', data: [] },
+    { name: 'J', data: [] },
   ]);
 
   const onWeightChangeHandler = (event) => {
@@ -47,58 +55,88 @@ const App = (props) => {
   const myFetch = useCallback(async () => {
     setIsLoading(true);
     try {
-      const me = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/me`);
-      const meData = await me.json();
-      const x = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/x`);
-      const xData = await x.json();
-      const meH = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/me/h`);
-      const meHData = await meH.json();
-      const meL = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/me/l`);
-      const meLData = await meL.json();
-      const xH = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/x/h`);
-      const xHData = await xH.json();
-      const xL = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/x/l`);
-      const xLData = await xL.json();
-      if (!me.ok || !x.ok || !meH.ok || !meL.ok || !xH.ok || !xL.ok) {
+      const c = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/c`);
+      const cData = await c.json();
+      const m = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/m`);
+      const mData = await m.json();
+      const j = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/j`);
+      const jData = await j.json();
+      const cH = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/c/h`);
+      const cHData = await cH.json();
+      const cL = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/c/l`);
+      const cLData = await cL.json();
+      const mH = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/m/h`);
+      const mHData = await mH.json();
+      const mL = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/m/l`);
+      const mLData = await mL.json();
+      const jH = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/j/h`);
+      const jHData = await jH.json();
+      const jL = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/j/l`);
+      const jLData = await jL.json();
+      if (
+        !c.ok ||
+        !m.ok ||
+        !j.ok ||
+        !cH.ok ||
+        !cL.ok ||
+        !mH.ok ||
+        !mL.ok ||
+        !jH.ok ||
+        !jL.ok
+      ) {
         throw new Error(
-          meData.message ||
-            xData.message ||
-            meHData.message ||
-            meLData.message ||
-            xHData.message ||
-            xLData.message
+          cData.message ||
+            mData.message ||
+            jData.message ||
+            cHData.message ||
+            cLData.message ||
+            mHData.message ||
+            mLData.message ||
+            jHData.message ||
+            jLData.message
         );
       }
 
-      setData([meData, xData]);
+      setData([cData, mData, jData]);
       let firstDay = new Date();
       firstDay.setDate(firstDay.getDate() - 15);
       const strFirstDay = firstDay.toLocaleDateString('en-CA');
       setHalfMonthData([
         {
-          ...meData,
-          data: meData.data.filter((item) => item.date > strFirstDay),
+          ...cData,
+          data: cData.data.filter((item) => item.date > strFirstDay),
         },
         {
-          ...xData,
-          data: xData.data.filter((item) => item.date > strFirstDay),
+          ...mData,
+          data: mData.data.filter((item) => item.date > strFirstDay),
+        },
+        {
+          ...jData,
+          data: jData.data.filter((item) => item.date > strFirstDay),
         },
       ]);
+
       setWeightData({
-        me: meData.data[meData.data.length - 1].me,
-        meH: meHData.data,
-        meL: meLData.data,
-        x: xData.data[xData.data.length - 1].x,
-        xH: xHData.data,
-        xL: xLData.data,
+        c: cData.data[cData.data.length - 1].value,
+        cH: cHData.data,
+        cL: cLData.data,
+        m: mData.data[mData.data.length - 1].value,
+        mH: mHData.data,
+        mL: mLData.data,
+        j: jData.data[jData.data.length - 1].value,
+        jH: jHData.data,
+        jL: jLData.data,
       });
 
       const today = new Date().toLocaleDateString('en-CA');
-      if (meData.data[meData.data.length - 1].date !== today) {
-        setMeIsValid(true);
+      if (cData.data[cData.data.length - 1].date !== today) {
+        setCIsValid(true);
       }
-      if (xData.data[xData.data.length - 1].date !== today) {
-        setXIsValid(true);
+      if (mData.data[mData.data.length - 1].date !== today) {
+        setMIsValid(true);
+      }
+      if (jData.data[jData.data.length - 1].date !== today) {
+        setJIsValid(true);
       }
       setIsLoading(false);
     } catch (err) {
@@ -112,19 +150,26 @@ const App = (props) => {
   }, [myFetch]);
 
   const checkNewRecordHandler = () => {
-    setIsMeNewRecord(false);
-    setIsXNewRecord(false);
+    setIsCNewRecord(false);
+    setIsMNewRecord(false);
+    setIsJNewRecord(false);
     if (
-      +weightData.me !== 0 &&
-      (+weightData.me === weightData.meH || +weightData.me === weightData.meL)
+      +weightData.c !== 0 &&
+      (+weightData.c === weightData.cH || +weightData.c === weightData.cL)
     ) {
-      setIsMeNewRecord(true);
+      setIsCNewRecord(true);
     }
     if (
-      +weightData.x !== 0 &&
-      (+weightData.x === weightData.xH || +weightData.x === weightData.xL)
+      +weightData.m !== 0 &&
+      (+weightData.m === weightData.mH || +weightData.m === weightData.mL)
     ) {
-      setIsXNewRecord(true);
+      setIsMNewRecord(true);
+    }
+    if (
+      +weightData.j !== 0 &&
+      (+weightData.j === weightData.jH || +weightData.j === weightData.jL)
+    ) {
+      setIsJNewRecord(true);
     }
   };
   useEffect(checkNewRecordHandler, [checkNewRecordHandler]);
@@ -160,11 +205,14 @@ const App = (props) => {
         resData.username
       );
       setShowModal(false);
-      if (resData.username === 'me') {
-        setIsMeAuth(true);
+      if (resData.username === 'c') {
+        setIsCAuth(true);
       }
-      if (resData.username === 'x') {
-        setIsXAuth(true);
+      if (resData.username === 'm') {
+        setIsMAuth(true);
+      }
+      if (resData.username === 'j') {
+        setIsJAuth(true);
       }
     } catch (err) {
       setMessages(err.message);
@@ -190,13 +238,18 @@ const App = (props) => {
     setMessages(null);
   };
 
-  const onSetMeIsValidHandler = () => {
-    setMeIsValid(false);
+  const onSetCIsValidHandler = () => {
+    setCIsValid(false);
     myFetch();
   };
 
-  const onSetXIsValidHandler = () => {
-    setXIsValid(false);
+  const onSetMIsValidHandler = () => {
+    setMIsValid(false);
+    myFetch();
+  };
+
+  const onSetJIsValidHandler = () => {
+    setJIsValid(false);
     myFetch();
   };
 
@@ -227,6 +280,8 @@ const App = (props) => {
     setShowWholeChart((prev) => !prev);
   };
 
+  console.log(halfMonthData);
+
   return (
     <div>
       {showModal && <Modal onClose={onCloseModalHandler}>{modalForm}</Modal>}
@@ -238,18 +293,22 @@ const App = (props) => {
       )}
       {!isLoading && (
         <BMI
-          meIsValid={meIsValid}
-          xIsValid={xIsValid}
+          cIsValid={cIsValid}
+          mIsValid={mIsValid}
+          jIsValid={jIsValid}
           onWeightChange={onWeightChangeHandler}
           onShowModal={showModalHandler}
           weightData={weightData}
           onSetModalInputId={onSetModalInputIdHandler}
-          isMeAuth={isMeAuth}
-          isXAuth={isXAuth}
-          onSetMeIsValid={onSetMeIsValidHandler}
-          onSetXIsValid={onSetXIsValidHandler}
-          isMeNewRecord={isMeNewRecord}
-          isXNewRecord={isXNewRecord}
+          isCAuth={isCAuth}
+          isMAuth={isMAuth}
+          isJAuth={isJAuth}
+          onSetCIsValid={onSetCIsValidHandler}
+          onSetMIsValid={onSetMIsValidHandler}
+          onSetJIsValid={onSetJIsValidHandler}
+          isCNewRecord={isCNewRecord}
+          isMNewRecord={isMNewRecord}
+          isJNewRecord={isJNewRecord}
           onCheckNewRecord={checkNewRecordHandler}
         />
       )}
@@ -258,8 +317,8 @@ const App = (props) => {
           {showWholeChart ? 'Show Recent 15 Days' : 'Show All'}
         </button>
       )}
-      {!isLoading && showWholeChart && <TwoLineChart data={data} />}
-      {!isLoading && !showWholeChart && <TwoLineChart data={halfMonthData} />}
+      {!isLoading && showWholeChart && <ThreeLineChart data={data} />}
+      {!isLoading && !showWholeChart && <ThreeLineChart data={halfMonthData} />}
     </div>
   );
 };

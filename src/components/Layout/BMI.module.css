@@ -64,7 +64,7 @@
     flex-direction: column;
     height: auto;
   }
-  .BMI-container .BMI-me-container {
+  .BMI-container .BMI-c-container {
     height: 53rem;
   }
   .middle {
@@ -75,9 +75,14 @@
     margin-top: 3rem;
     font-size: 4rem;
   }
-  .BMI-container .BMI-x-container {
+  .BMI-container .BMI-m-container {
     height: 53rem;
   }
+
+  .BMI-container .BMI-j-container {
+    height: 53rem;
+  }
+
   .HLbar {
     height: 12rem;
     width: 7rem;
