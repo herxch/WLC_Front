@@ -100,7 +100,13 @@ const App = (props) => {
       setData([cData, mData, jData]);
       let firstDay = new Date();
       firstDay.setDate(firstDay.getDate() - 15);
-      const strFirstDay = firstDay.toLocaleDateString('en-CA');
+      // const strFirstDay = firstDay.toLocaleDateString('en-CA');
+      const year = firstDay.toLocaleString('default', { year: 'numeric' });
+      const month = firstDay.toLocaleString('default', { month: '2-digit' });
+      const day = firstDay.toLocaleString('default', { day: '2-digit' });
+
+      // Generate yyyy-mm-dd date string
+      const strFirstDay = year + '-' + month + '-' + day;
       setHalfMonthData([
         {
           ...cData,

@@ -141,8 +141,8 @@ const BMI = (props) => {
   const mBMIPct = calcBMIPct(props.weightData.m, heightData.m);
   const jBMIPct = calcBMIPct(props.weightData.j, heightData.j);
 
-  const weightDiff =
-    Math.round((props.weightData.m - props.weightData.c) * 2.20462 * 10) / 10;
+  // const weightDiff =
+  //   Math.round((props.weightData.m - props.weightData.c) * 2.20462 * 10) / 10;
 
   return (
     <Fragment>
@@ -172,9 +172,9 @@ const BMI = (props) => {
               </tr>
             </tbody>
           </table>
-          <div
+          {/* <div
             className={classes.weightdiff}
-          >{`Weight Diff:  ${weightDiff} lbs`}</div>
+          >{`Weight Diff:  ${weightDiff} lbs`}</div> */}
         </div>
         <div className={classes['BMI-c-container']}>
           <div className={classes['BMI-inner']}>
